@@ -12,11 +12,16 @@ module Guests
     end
 
     def run_parse
-      ActiveRecord::Base.transaction do
-        guest = Guest.new(guest_formatter)
-        if guest.save
-          guest.reservations.create(reservation_formatter)
+      begin
+        ActiveRecord::Base.transaction do
+          guest = Guest.find_or_initialize_by(email: guest_formatter[:email])
+          guest.assign_attributes(guest_formatter)
+          if guest.save!
+            guest.reservations.create(reservation_formatter)
+          end
         end
+      rescue => error
+        raise error
       end
     end
 

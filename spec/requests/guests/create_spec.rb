@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'POST /reservations' do
+describe 'POST /guests' do
   context 'accepts payload1' do
 
     def payload1
@@ -29,7 +29,7 @@ describe 'POST /reservations' do
 
     it 'should save a reservation using payload1' do
       expect {
-        post "/reservations", :params => payload1
+        post "/guests", :params => payload1
       }.to change { Guest.count }.by(1)
       .and change { Reservation.count }.by(1)
     end
@@ -70,7 +70,7 @@ describe 'POST /reservations' do
 
     it 'should save reservation using payload2' do
       expect {
-        post "/reservations", :params => payload2
+        post "/guests", :params => payload2
       }.to change { Guest.count }.by(1)
       .and change { Reservation.count }.by(1)
     end
