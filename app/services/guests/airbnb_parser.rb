@@ -1,9 +1,13 @@
 module Guests
-  class AirbnbParser < Processor
+  class AirbnbParser
     
-    private
+    attr_reader :params
 
-    def guest_formatter
+    def initialize params
+      @params = params
+    end
+
+    def guest
       {
         email: params[:guest][:email],
         first_name: params[:guest][:first_name],
@@ -12,7 +16,7 @@ module Guests
       }
     end
 
-    def reservation_formatter
+    def reservation
       {
         start_date: params[:start_date],
         end_date: params[:end_date],

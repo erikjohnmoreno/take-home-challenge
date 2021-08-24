@@ -2,16 +2,17 @@ module Guests
   class Processor < Base
       
     def run_create
-      if params[:reservation].present?
+      formatter = if params[:reservation].present?
         # handles payload2
-        Guests::BookingParser.new(params).run_parse
+        Guests::BookingParser.new(params)
       else
         # handles payload1
-        Guests::AirbnbParser.new(params).run_parse
+        Guests::AirbnbParser.new(params)
       end
+      run_parse(formatter.guest, formatter.reservation)
     end
 
-    def run_parse
+    def run_parse guest_formatter, reservation_formatter
       begin
         ActiveRecord::Base.transaction do
           guest = Guest.find_or_initialize_by(email: guest_formatter[:email])
@@ -23,16 +24,6 @@ module Guests
       rescue => error
         raise error
       end
-    end
-
-    private
-
-    def guest_formatter
-      raise 'Implement me'
-    end
-
-    def reservation_formatter
-      raise 'Implement me'
     end
 
   end

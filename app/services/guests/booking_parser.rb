@@ -1,5 +1,5 @@
 module Guests
-  class BookingParser < Processor
+  class BookingParser
 
     attr_reader :params
 
@@ -7,9 +7,7 @@ module Guests
       @params = params[:reservation]
     end
 
-    private
-
-    def guest_formatter
+    def guest
       {
         email: params[:guest_email],
         first_name: params[:guest_first_name],
@@ -18,7 +16,7 @@ module Guests
       }
     end
 
-    def reservation_formatter
+    def reservation
       {
         start_date: params[:start_date],
         end_date: params[:end_date],
